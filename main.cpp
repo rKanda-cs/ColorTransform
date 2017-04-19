@@ -65,9 +65,10 @@ int main(int argc, char *argv[]){
 //-----//---------------------------------------------------------------------------------------------------
 void Initialize(){
   //drawer = new PolarCoodsPlot("(500nm,0deg)NTF(1deg).txt"); //極座標プロット
+  drawer = new PolarCoodsPlot("./rgbData/HairSimulation/incidence/"); //極座標プロット
   //drawer = new RGBTransform("Red_Refraction.txt"); 
   //drawer = new Graph();
-  drawer = new RGBPlot();  //角反射率から, 色をだす
+  //drawer = new RGBPlot();  //角反射率から, 色をだす
 }
 //----------------------------------------------------
 // アイドル時に呼び出される関数

@@ -8,8 +8,8 @@
 #include<glut.h>
 #include<complex>
 
-const int out_min_deg = 0;	//Å¬Šp“x
-const int out_max_deg = 180;	//Å‘åŠp“x
+const int out_min_deg = 90;	//Å¬Šp“x
+const int out_max_deg = 270;	//Å‘åŠp“x
 const int out_d_deg   = 1;		//Šp“xŠÔŠu
 const int out_num	  = (out_max_deg-out_min_deg) / out_d_deg;
 const int in_min_deg  = -90;	
@@ -64,13 +64,13 @@ public:
 		setDirTM();
 		*/
 		//max_sum = 1;
-		for(int j=0; j <= 90; j+=10){
-			for(int i=380; i<=700; i+=5){
+		for(int j=-90; j <= 90; j+=10){
+			for(int i=380; i<=700; i+=10){
 				//if((i>=600 && i<=700)) continue;
 				getPlot(i,j);
 			}
 		}
-
+		
 	}
 	
 	string getDir(){
@@ -83,7 +83,8 @@ public:
 	}
 
 	void setDirTM(){
-		Dir = "../../FDTD-Cpp-master/DataSet/SlabModel/(10nm,150cell)/TM/Ns/NTFF/";
+		Dir = "../../FDTD_HairSimulation/DataSet/HairModel/incidenceplane/(100nm,1280cell)/TM/Ns/NTFF/";
+		//Dir = "../../FDTD-Cpp-master/DataSet/SlabModel/(10nm,150cell)/TM/Ns/NTFF/";
 		//Dir = "../../FDTD-Cpp-master/DataSet/Morpho(1,1.56)M=8/120nm(nonShelf)(10nm,200cell)/TM/St/NTFF/";
 		//Dir = "../../../DataSet/ShelfModel/d=235M=9/";
 		//Dir = "../../../DataSet/TM/Morpho(1.56,1)M=8/110nm(nonShelf)(10nm,200cell)/NTFF/";	//20[nm]F—Î, 50[nm]:—Î
@@ -97,7 +98,9 @@ public:
 
 	void getPlot(int lam, int in_deg){
 		//string name   = to_s(in_deg) + "deg" + to_s(lam) + "nm.txt"; 
-		string name = "(WL=" + to_s(lam) + "nm,AOI=" + to_s(in_deg) + "deg).txt"; 
+		//string name = "(WL=" + to_s(lam) + "nm,AOI=" + to_s(in_deg) + "deg).txt"; 
+		string name = "(WL=" + to_s(lam) + "nm,AOI=" + to_s(135) + "deg).txt";
+
 		ifstream fp(getDir()+name);	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­
 		if(!fp)	cout <<  "file error"  << name << endl;
 
@@ -123,19 +126,26 @@ public:
 		double wid = 2.0*dh/in_num;
 		double hei = 2.0*dh/out_num;
 		glColor3d(0.0, 0.0, 0.0);
-
-		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "-90", -dh-0.15*offset , -dh-0.4*offset);
-		drawBitmapString(GLUT_BITMAP_HELVETICA_12, " 90",  dh-0.15*offset , -dh-0.4*offset);
+/*
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, " 135", -dh-0.15*offset , -dh-0.4*offset);
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, " 135",  dh-0.15*offset , -dh-0.4*offset);
 		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "theta(deg)", -0.1, -dh -0.1);
+*/
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "incidence 135deg", -0.1, -dh - 0.1);
+
 		/*
 		for(int i=out_min_deg; i<=out_max_deg; i+= 30){
 			double y = (i - out_min_deg)/out_d_deg*hei - dh;
 			drawBitmapString(GLUT_BITMAP_HELVETICA_12, to_s(i-270), -1.0+0.5*offset, y);
 		}*/
-		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "-90", -dh - 0.5*offset,-dh-0.15*offset);
-		drawBitmapString(GLUT_BITMAP_HELVETICA_12, " 90", -dh - 0.5*offset, dh-0.15*offset);
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "0", -dh - 0.5*offset,-dh-0.15*offset);
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "45", -dh - 0.5*offset, 45 * hei - dh);
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "135", -dh - 0.5*offset, 135 * hei - dh);
+		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "180", -dh - 0.5*offset, dh-0.15*offset);
 		drawBitmapString(GLUT_BITMAP_HELVETICA_12, "phi (deg)"  , -dh - 0.15, -0.01);
 
+
+		// ”’ü–Ú·‚è
 		glColor3d(1.0, 1.0, 1.0);
 		glBegin(GL_LINES);
 		for(int i=-1; i <= 1; i++){
@@ -164,14 +174,14 @@ public:
 			MyColor c = 0.5*(c1+c2);
 			glColor3d(c.r, c.g, c.b);
 			glRectd(x1, y1, x2, y2);
-			
+/*			
 			//“_‘ÎÌ‚È‚Ì‚Å,”½‘Î‘¤‚É‚à•\¦
 			x1 = (in_num - i - r*k)*wid - dh;
 			y1 = (out_num -j)*hei - dh;
 			x2 = x1 - r*wid;
 			y2 = y1 - hei;
 			glRectd(x1, y1, x2, y2);
-			
+*/		
 		}
 	}
 
@@ -196,7 +206,7 @@ public:
 
 	void draw(){
 		
-		for(int i=in_num/2; i<in_num; i++)
+		for(int i=0; i<in_num; i++)
 			for(int j=0; j<out_num; j++)
 				drawCell(i,j);
 		draw_axis();
